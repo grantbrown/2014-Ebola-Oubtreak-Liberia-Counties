@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="./css/ebola.css" rel="stylesheet">
+
+<body>
+
+<div class="container">
+	<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-8">
+			<h1>Custom Map Data Test</h1>
+		</div>
+		<div class="col-sm-2"></div>	
+	</div>
+	<div class="row">
+		<div class="col-sm-2"></div>	
+		<div class="col-sm-8">	
+			<div id="zoom_map" style="height: 500px; width: 900px;"></div>
+		</div>	
+		<div class="col-sm-2"></div>	
+	</div>	
+	</body>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="./bootstrap/js/bootstrap.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="./datamaps.world.min.js"></script>
+
+<script>
+  var map = new Datamap({
+    element: document.getElementById('zoom_map'),
+    geographyConfig: {
+      dataUrl: 'JSON/combined.topo.json',
+	  "borderColor":"#cccccc",
+	  "borderWidth":"2px"
+    }, 
+    scope: 'AfricaCounties',
+    "fills": 
+	{
+		"defaultFill": "#ffffef",
+		"lt4": "#ffffef",
+		"lt9": "#fff7bf",
+		"lt13": "#fee39f",
+		"lt17": "#fec45f",
+		"lt21": "#fe993f",
+		"lt26": "#ec702f",
+		"lt30": "#cc4c1f",
+		"lt34": "#993402",
+		"lt38": "#662520" 
+	},
+	"data":
+	{
+		"GIN": {
+		 "fillKey": "lt4" 
+		},
+		"LBR": {
+		 "fillKey": "lt4" 
+		},
+		"SLE": {
+		 "fillKey": "lt4" 
+		} 
+	},
+    setProjection: function( element, options ) {
+		var path;
+		var projection = d3.geo.equirectangular()
+		    .center([-5, 7])
+		    .rotate([4.4, 0])
+	  		  .scale(1600)
+	  		  .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+		 
+		path = d3.geo.path()
+		  .projection( projection );
+	 
+		return {path: path, projection: projection};
+	  }
+	});
+
+var LBR;
+d3.json("LBR_adm/test.json", function(error, liberia) {
+  if (error) return console.error(error);
+  LBR = liberia;
+  
+  //svg.append("path")
+  //    .datum(topojson.feature(liberia, liberia.objects.LiberiaCounties))
+  //    .attr("d", d3.geo.path().projection(d3.geo.equirectangular()
+  //    .center([-5, 7])
+  //    .rotate([4.4, 0])
+ // 	  .scale(1600)
+  	  //.translate([svg.offsetWidth / 2, svg.offsetHeight / 2])));
+  ////	 ));
+});
+
+</script>
+</body>
+</html>
+
